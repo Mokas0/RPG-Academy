@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RPG Academy — Math Sprint</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- ==================== TITLE SCREEN ==================== -->
+  <div id="screen-title" class="screen active">
+    <div class="title-wrapper">
+      <h1 class="game-title">RPG Academy</h1>
+      <p class="subtitle">Math Sprint</p>
+      <div class="title-crest"></div>
+      <button id="btn-new-game" class="btn btn-primary">New Game</button>
+      <button id="btn-continue" class="btn btn-secondary" style="display:none;">Continue</button>
+    </div>
+  </div>
+
+  <!-- ==================== CHARACTER CREATION ==================== -->
+  <div id="screen-create" class="screen">
+    <h2>Create Your Hero</h2>
+
+    <label class="input-label" for="char-name">Name Your Character</label>
+    <input type="text" id="char-name" class="text-input" placeholder="Enter a name..." maxlength="20">
+
+    <h3>Choose a Class</h3>
+    <div id="class-picker" class="card-row">
+      <button class="class-card" data-class="warrior">
+        <span class="class-icon">&#9876;</span>
+        <span class="class-name">Warrior</span>
+      </button>
+      <button class="class-card" data-class="mage">
+        <span class="class-icon">&#9733;</span>
+        <span class="class-name">Mage</span>
+      </button>
+      <button class="class-card" data-class="cleric">
+        <span class="class-icon">&#9764;</span>
+        <span class="class-name">Cleric</span>
+      </button>
+    </div>
+
+    <h3>Choose a Subclass</h3>
+    <div id="subclass-picker" class="card-row"></div>
+
+    <button id="btn-start-adventure" class="btn btn-primary" disabled>Begin Adventure</button>
+  </div>
+
+  <!-- ==================== HUB / DASHBOARD ==================== -->
+  <div id="screen-hub" class="screen">
+    <header class="hub-header">
+      <div class="char-badge">
+        <span id="hub-icon" class="char-icon"></span>
+        <div>
+          <span id="hub-name" class="char-name-display"></span>
+          <span id="hub-class" class="char-class-display"></span>
+        </div>
+      </div>
+      <div class="level-badge">Lv. <span id="hub-level">1</span></div>
+    </header>
+
+    <!-- XP Bar -->
+    <div class="xp-bar-container">
+      <div class="xp-bar">
+        <div id="xp-fill" class="xp-fill"></div>
+      </div>
+      <span id="xp-text" class="xp-text">0 / 100 XP</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-str">0</span>
+        <span class="stat-label">STR</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-int">0</span>
+        <span class="stat-label">INT</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-wis">0</span>
+        <span class="stat-label">WIS</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-dex">0</span>
+        <span class="stat-label">DEX</span>
+      </div>
+    </div>
+
+    <!-- Sprint Selector -->
+    <h3 class="section-heading">Math Sprints</h3>
+    <div class="sprint-grid">
+      <button class="sprint-card" data-op="addition">
+        <span class="sprint-icon">+</span>
+        <span>Addition</span>
+      </button>
+      <button class="sprint-card" data-op="subtraction">
+        <span class="sprint-icon">&minus;</span>
+        <span>Subtraction</span>
+      </button>
+      <button class="sprint-card" data-op="multiplication">
+        <span class="sprint-icon">&times;</span>
+        <span>Multiplication</span>
+      </button>
+      <button class="sprint-card" data-op="division">
+        <span class="sprint-icon">&divide;</span>
+        <span>Division</span>
+      </button>
+      <button class="sprint-card sprint-card-mixed" data-op="mixed">
+        <span class="sprint-icon">&#9881;</span>
+        <span>Mixed</span>
+      </button>
+    </div>
+
+    <button id="btn-reset" class="btn btn-danger btn-small">Reset Character</button>
+  </div>
+
+  <!-- ==================== SPRINT (GAME) ==================== -->
+  <div id="screen-sprint" class="screen">
+    <div class="sprint-hud">
+      <div class="hud-item">
+        <span class="hud-label">Time</span>
+        <span id="sprint-timer" class="hud-value">30</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Score</span>
+        <span id="sprint-score" class="hud-value">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Streak</span>
+        <span id="sprint-streak" class="hud-value">0</span>
+      </div>
+    </div>
+
+    <div id="sprint-problem" class="problem-display">
+      <span id="problem-text" class="problem-text"></span>
+    </div>
+
+    <input type="number" id="answer-input" class="answer-input" autocomplete="off" inputmode="numeric">
+    <div id="answer-feedback" class="answer-feedback"></div>
+
+    <div class="sprint-controls">
+      <button id="btn-submit-answer" class="btn btn-primary">Submit</button>
+      <button id="btn-quit-sprint" class="btn btn-secondary btn-small">Quit</button>
+    </div>
+  </div>
+
+  <!-- ==================== RESULTS ==================== -->
+  <div id="screen-results" class="screen">
+    <h2 id="results-title">Sprint Complete!</h2>
+    <div class="results-body">
+      <div class="results-stat">
+        <span class="results-label">Correct</span>
+        <span id="results-correct" class="results-value">0</span>
+      </div>
+      <div class="results-stat">
+        <span class="results-label">Wrong</span>
+        <span id="results-wrong" class="results-value">0</span>
+      </div>
+      <div class="results-stat">
+        <span class="results-label">Best Streak</span>
+        <span id="results-streak" class="results-value">0</span>
+      </div>
+      <div class="results-stat highlight">
+        <span class="results-label">XP Earned</span>
+        <span id="results-xp" class="results-value">0</span>
+      </div>
+    </div>
+
+    <div id="level-up-banner" class="level-up-banner" style="display:none;">
+      <span class="level-up-text">LEVEL UP!</span>
+      <span id="level-up-detail"></span>
+    </div>
+
+    <button id="btn-back-hub" class="btn btn-primary">Return to Hub</button>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
